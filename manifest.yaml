@@ -1,7 +1,7 @@
 version: 0.0.1
 type: plugin
-author: ChuHaoJiQi
-name: FlexMD-to-Word
+author: chuhaojiqi
+name: flexmd-to-word
 label:
   en_US: FlexMD-to-Word
   ja_JP: FlexMD-to-Word
