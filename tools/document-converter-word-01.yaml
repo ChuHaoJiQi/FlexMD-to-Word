@@ -1,0 +1,787 @@
+identity:
+  name: "document-converter-word-01"
+  author: "ChuHaoJiQi"
+  label:
+    en_US: "FlexMD-to-Word"
+    zh_Hans: "FlexMD-to-Word"
+    pt_BR: "FlexMD-to-Word"
+    ja_JP: "FlexMD-to-Word"
+description:
+  human:
+    en_US: "Convert Markdown text to Word (.docx) file"
+    zh_Hans: "将 Markdown 文本转换为 Word (.docx) 文件"
+    pt_BR: "Converter texto Markdown para arquivo Word (.docx)"
+    ja_JP: "Markdown テキストを Word (.docx) ファイルに変換"
+  llm: "Convert Markdown to Word (.docx)"
+parameters:
+  - name: markdown
+    type: string
+    required: true
+    label:
+      en_US: Markdown content
+      zh_Hans: Markdown 内容
+      pt_BR: Conteúdo Markdown
+      ja_JP: Markdown コンテンツ
+    human_description:
+      en_US: "Input Markdown text to convert into a Word document"
+      zh_Hans: "输入需要转换为 Word 文档的 Markdown 文本"
+      pt_BR: "Insira o texto Markdown para converter em documento Word"
+      ja_JP: "Word ドキュメントに変換する Markdown テキストを入力"
+    llm_description: "Markdown content to convert into a Word (.docx)"
+    form: llm
+  - name: filename
+    type: string
+    required: false
+    default: "document.docx"
+    label:
+      en_US: Output filename
+      zh_Hans: 输出文件名
+      pt_BR: Nome do arquivo de saída
+      ja_JP: 出力ファイル名
+    human_description:
+      en_US: "Optional, defaults to document.docx"
+      zh_Hans: "可选，默认为 document.docx"
+      pt_BR: "Opcional, padrão document.docx"
+      ja_JP: "任意、既定値は document.docx"
+    llm_description: "Output filename, defaults to document.docx if omitted"
+    form: form
+  - name: style_profile
+    type: string
+    required: false
+    default: "学术论文"
+    label:
+      en_US: Style profile
+      zh_Hans: 样式预设
+      pt_BR: Perfil de estilo
+      ja_JP: スタイルプロファイル
+    human_description:
+      en_US: "Optional, e.g., 学术论文 / 商务报告 / 技术文档"
+      zh_Hans: "可选，例如：学术论文 / 商务报告 / 技术文档"
+      pt_BR: "Opcional, por exemplo: 学术论文 / 商务报告 / 技术文档"
+      ja_JP: "任意、例：学术论文 / 商务报告 / 技术文档"
+    llm_description: "Preferred style template to apply on the final .docx"
+    form: form
+  - name: h1_font
+    type: select
+    required: false
+    label:
+      en_US: H1 font
+      zh_Hans: 一级标题字体
+      pt_BR: Fonte H1
+      ja_JP: H1 フォント
+    human_description:
+      en_US: "Override Heading 1 font"
+      zh_Hans: "覆盖一级标题字体"
+      pt_BR: "Sobrescreve a fonte do H1"
+      ja_JP: "H1のフォントを上書き"
+    llm_description: "Optional H1 font override"
+    options:
+      - label:
+          en_US: 宋体
+          zh_Hans: 宋体
+          pt_BR: 宋体
+          ja_JP: 宋体
+        value: 宋体
+      - label:
+          en_US: 微软雅黑
+          zh_Hans: 微软雅黑
+          pt_BR: 微软雅黑
+          ja_JP: 微软雅黑
+        value: 微软雅黑
+      - label:
+          en_US: 黑体
+          zh_Hans: 黑体
+          pt_BR: 黑体
+          ja_JP: 黑体
+        value: 黑体
+      - label:
+          en_US: 仿宋
+          zh_Hans: 仿宋
+          pt_BR: 仿宋
+          ja_JP: 仿宋
+        value: 仿宋
+      - label:
+          en_US: 楷体
+          zh_Hans: 楷体
+          pt_BR: 楷体
+          ja_JP: 楷体
+        value: 楷体
+      - label:
+          en_US: 思源黑体
+          zh_Hans: 思源黑体
+          pt_BR: 思源黑体
+          ja_JP: 思源黑体
+        value: 思源黑体
+      - label:
+          en_US: 思源宋体
+          zh_Hans: 思源宋体
+          pt_BR: 思源宋体
+          ja_JP: 思源宋体
+        value: 思源宋体
+      - label:
+          en_US: Times New Roman
+          zh_Hans: Times New Roman
+          pt_BR: Times New Roman
+          ja_JP: Times New Roman
+        value: Times New Roman
+      - label:
+          en_US: Arial
+          zh_Hans: Arial
+          pt_BR: Arial
+          ja_JP: Arial
+        value: Arial
+      - label:
+          en_US: Consolas
+          zh_Hans: Consolas
+          pt_BR: Consolas
+          ja_JP: Consolas
+        value: Consolas
+      - label:
+          en_US: Courier New
+          zh_Hans: Courier New
+          pt_BR: Courier New
+          ja_JP: Courier New
+        value: Courier New
+    form: form
+  - name: h1_size_pt
+    type: select
+    required: false
+    label:
+      en_US: H1 size (pt)
+      zh_Hans: 一级标题字号（pt）
+      pt_BR: Tamanho H1 (pt)
+      ja_JP: H1 サイズ（pt）
+    human_description:
+      en_US: "Override H1 size in points"
+      zh_Hans: "覆盖一级标题字号（磅）"
+      pt_BR: "Sobrescreve tamanho do H1 em pontos"
+      ja_JP: "H1のポイントサイズを上書き"
+    llm_description: "Optional H1 size override"
+    options:
+      - label:
+          en_US: 12 pt
+          zh_Hans: 12 pt
+          pt_BR: 12 pt
+          ja_JP: 12 pt
+        value: "12"
+      - label:
+          en_US: 14 pt
+          zh_Hans: 14 pt
+          pt_BR: 14 pt
+          ja_JP: 14 pt
+        value: "14"
+      - label:
+          en_US: 16 pt
+          zh_Hans: 16 pt
+          pt_BR: 16 pt
+          ja_JP: 16 pt
+        value: "16"
+      - label:
+          en_US: 18 pt
+          zh_Hans: 18 pt
+          pt_BR: 18 pt
+          ja_JP: 18 pt
+        value: "18"
+      - label:
+          en_US: 20 pt
+          zh_Hans: 20 pt
+          pt_BR: 20 pt
+          ja_JP: 20 pt
+        value: "20"
+    form: form
+  - name: h2_font
+    type: select
+    required: false
+    label:
+      en_US: H2 font
+      zh_Hans: 二级标题字体
+      pt_BR: Fonte H2
+      ja_JP: H2 フォント
+    human_description:
+      en_US: "Override Heading 2 font"
+      zh_Hans: "覆盖二级标题字体"
+      pt_BR: "Sobrescreve a fonte do H2"
+      ja_JP: "H2のフォントを上書き"
+    llm_description: "Optional H2 font override"
+    options:
+      - label:
+          en_US: 宋体
+          zh_Hans: 宋体
+          pt_BR: 宋体
+          ja_JP: 宋体
+        value: 宋体
+      - label:
+          en_US: 微软雅黑
+          zh_Hans: 微软雅黑
+          pt_BR: 微软雅黑
+          ja_JP: 微软雅黑
+        value: 微软雅黑
+      - label:
+          en_US: 黑体
+          zh_Hans: 黑体
+          pt_BR: 黑体
+          ja_JP: 黑体
+        value: 黑体
+      - label:
+          en_US: 仿宋
+          zh_Hans: 仿宋
+          pt_BR: 仿宋
+          ja_JP: 仿宋
+        value: 仿宋
+      - label:
+          en_US: 楷体
+          zh_Hans: 楷体
+          pt_BR: 楷体
+          ja_JP: 楷体
+        value: 楷体
+      - label:
+          en_US: 思源黑体
+          zh_Hans: 思源黑体
+          pt_BR: 思源黑体
+          ja_JP: 思源黑体
+        value: 思源黑体
+      - label:
+          en_US: 思源宋体
+          zh_Hans: 思源宋体
+          pt_BR: 思源宋体
+          ja_JP: 思源宋体
+        value: 思源宋体
+      - label:
+          en_US: Times New Roman
+          zh_Hans: Times New Roman
+          pt_BR: Times New Roman
+          ja_JP: Times New Roman
+        value: Times New Roman
+      - label:
+          en_US: Arial
+          zh_Hans: Arial
+          pt_BR: Arial
+          ja_JP: Arial
+        value: Arial
+      - label:
+          en_US: Consolas
+          zh_Hans: Consolas
+          pt_BR: Consolas
+          ja_JP: Consolas
+        value: Consolas
+      - label:
+          en_US: Courier New
+          zh_Hans: Courier New
+          pt_BR: Courier New
+          ja_JP: Courier New
+        value: Courier New
+    form: form
+  - name: h2_size_pt
+    type: select
+    required: false
+    label:
+      en_US: H2 size (pt)
+      zh_Hans: 二级标题字号（pt）
+      pt_BR: Tamanho H2 (pt)
+      ja_JP: H2 サイズ（pt）
+    human_description:
+      en_US: "Override H2 size in points"
+      zh_Hans: "覆盖二级标题字号（磅）"
+      pt_BR: "Sobrescreve tamanho do H2 em pontos"
+      ja_JP: "H2のポイントサイズを上書き"
+    llm_description: "Optional H2 size override"
+    options:
+      - label:
+          en_US: 12 pt
+          zh_Hans: 12 pt
+          pt_BR: 12 pt
+          ja_JP: 12 pt
+        value: "12"
+      - label:
+          en_US: 14 pt
+          zh_Hans: 14 pt
+          pt_BR: 14 pt
+          ja_JP: 14 pt
+        value: "14"
+      - label:
+          en_US: 16 pt
+          zh_Hans: 16 pt
+          pt_BR: 16 pt
+          ja_JP: 16 pt
+        value: "16"
+      - label:
+          en_US: 18 pt
+          zh_Hans: 18 pt
+          pt_BR: 18 pt
+          ja_JP: 18 pt
+        value: "18"
+    form: form
+  - name: h3_font
+    type: select
+    required: false
+    label:
+      en_US: H3 font
+      zh_Hans: 三级标题字体
+      pt_BR: Fonte H3
+      ja_JP: H3 フォント
+    human_description:
+      en_US: "Override Heading 3 font"
+      zh_Hans: "覆盖三级标题字体"
+      pt_BR: "Sobrescreve a fonte do H3"
+      ja_JP: "H3のフォントを上書き"
+    llm_description: "Optional H3 font override"
+    options:
+      - label:
+          en_US: 宋体
+          zh_Hans: 宋体
+          pt_BR: 宋体
+          ja_JP: 宋体
+        value: 宋体
+      - label:
+          en_US: 微软雅黑
+          zh_Hans: 微软雅黑
+          pt_BR: 微软雅黑
+          ja_JP: 微软雅黑
+        value: 微软雅黑
+      - label:
+          en_US: 黑体
+          zh_Hans: 黑体
+          pt_BR: 黑体
+          ja_JP: 黑体
+        value: 黑体
+      - label:
+          en_US: 仿宋
+          zh_Hans: 仿宋
+          pt_BR: 仿宋
+          ja_JP: 仿宋
+        value: 仿宋
+      - label:
+          en_US: 楷体
+          zh_Hans: 楷体
+          pt_BR: 楷体
+          ja_JP: 楷体
+        value: 楷体
+      - label:
+          en_US: 思源黑体
+          zh_Hans: 思源黑体
+          pt_BR: 思源黑体
+          ja_JP: 思源黑体
+        value: 思源黑体
+      - label:
+          en_US: 思源宋体
+          zh_Hans: 思源宋体
+          pt_BR: 思源宋体
+          ja_JP: 思源宋体
+        value: 思源宋体
+      - label:
+          en_US: Times New Roman
+          zh_Hans: Times New Roman
+          pt_BR: Times New Roman
+          ja_JP: Times New Roman
+        value: Times New Roman
+      - label:
+          en_US: Arial
+          zh_Hans: Arial
+          pt_BR: Arial
+          ja_JP: Arial
+        value: Arial
+      - label:
+          en_US: Consolas
+          zh_Hans: Consolas
+          pt_BR: Consolas
+          ja_JP: Consolas
+        value: Consolas
+      - label:
+          en_US: Courier New
+          zh_Hans: Courier New
+          pt_BR: Courier New
+          ja_JP: Courier New
+        value: Courier New
+    form: form
+  - name: h3_size_pt
+    type: select
+    required: false
+    label:
+      en_US: H3 size (pt)
+      zh_Hans: 三级标题字号（pt）
+      pt_BR: Tamanho H3 (pt)
+      ja_JP: H3 サイズ（pt）
+    human_description:
+      en_US: "Override H3 size in points"
+      zh_Hans: "覆盖三级标题字号（磅）"
+      pt_BR: "Sobrescreve tamanho do H3 em pontos"
+      ja_JP: "H3のポイントサイズを上書き"
+    llm_description: "Optional H3 size override"
+    options:
+      - label:
+          en_US: 10 pt
+          zh_Hans: 10 pt
+          pt_BR: 10 pt
+          ja_JP: 10 pt
+        value: "10"
+      - label:
+          en_US: 12 pt
+          zh_Hans: 12 pt
+          pt_BR: 12 pt
+          ja_JP: 12 pt
+        value: "12"
+      - label:
+          en_US: 14 pt
+          zh_Hans: 14 pt
+          pt_BR: 14 pt
+          ja_JP: 14 pt
+        value: "14"
+      - label:
+          en_US: 16 pt
+          zh_Hans: 16 pt
+          pt_BR: 16 pt
+          ja_JP: 16 pt
+        value: "16"
+    form: form
+  - name: h4_font
+    type: select
+    required: false
+    label:
+      en_US: H4 font
+      zh_Hans: 四级标题字体
+      pt_BR: Fonte H4
+      ja_JP: H4 フォント
+    human_description:
+      en_US: "Override Heading 4 font"
+      zh_Hans: "覆盖四级标题字体"
+      pt_BR: "Sobrescreve a fonte do H4"
+      ja_JP: "H4のフォントを上書き"
+    llm_description: "Optional H4 font override"
+    options:
+      - label:
+          en_US: 宋体
+          zh_Hans: 宋体
+          pt_BR: 宋体
+          ja_JP: 宋体
+        value: 宋体
+      - label:
+          en_US: 微软雅黑
+          zh_Hans: 微软雅黑
+          pt_BR: 微软雅黑
+          ja_JP: 微软雅黑
+        value: 微软雅黑
+      - label:
+          en_US: 黑体
+          zh_Hans: 黑体
+          pt_BR: 黑体
+          ja_JP: 黑体
+        value: 黑体
+      - label:
+          en_US: 仿宋
+          zh_Hans: 仿宋
+          pt_BR: 仿宋
+          ja_JP: 仿宋
+        value: 仿宋
+      - label:
+          en_US: 楷体
+          zh_Hans: 楷体
+          pt_BR: 楷体
+          ja_JP: 楷体
+        value: 楷体
+      - label:
+          en_US: 思源黑体
+          zh_Hans: 思源黑体
+          pt_BR: 思源黑体
+          ja_JP: 思源黑体
+        value: 思源黑体
+      - label:
+          en_US: 思源宋体
+          zh_Hans: 思源宋体
+          pt_BR: 思源宋体
+          ja_JP: 思源宋体
+        value: 思源宋体
+      - label:
+          en_US: Times New Roman
+          zh_Hans: Times New Roman
+          pt_BR: Times New Roman
+          ja_JP: Times New Roman
+        value: Times New Roman
+      - label:
+          en_US: Arial
+          zh_Hans: Arial
+          pt_BR: Arial
+          ja_JP: Arial
+        value: Arial
+      - label:
+          en_US: Consolas
+          zh_Hans: Consolas
+          pt_BR: Consolas
+          ja_JP: Consolas
+        value: Consolas
+      - label:
+          en_US: Courier New
+          zh_Hans: Courier New
+          pt_BR: Courier New
+          ja_JP: Courier New
+        value: Courier New
+    form: form
+  - name: h4_size_pt
+    type: select
+    required: false
+    label:
+      en_US: H4 size (pt)
+      zh_Hans: 四级标题字号（pt）
+      pt_BR: Tamanho H4 (pt)
+      ja_JP: H4 サイズ（pt）
+    human_description:
+      en_US: "Override H4 size in points"
+      zh_Hans: "覆盖四级标题字号（磅）"
+      pt_BR: "Sobrescreve tamanho do H4 em pontos"
+      ja_JP: "H4のポイントサイズを上書き"
+    llm_description: "Optional H4 size override"
+    options:
+      - label:
+          en_US: 10 pt
+          zh_Hans: 10 pt
+          pt_BR: 10 pt
+          ja_JP: 10 pt
+        value: "10"
+      - label:
+          en_US: 12 pt
+          zh_Hans: 12 pt
+          pt_BR: 12 pt
+          ja_JP: 12 pt
+        value: "12"
+      - label:
+          en_US: 14 pt
+          zh_Hans: 14 pt
+          pt_BR: 14 pt
+          ja_JP: 14 pt
+        value: "14"
+    form: form
+  - name: h5_font
+    type: select
+    required: false
+    label:
+      en_US: H5 font
+      zh_Hans: 五级标题字体
+      pt_BR: Fonte H5
+      ja_JP: H5 フォント
+    human_description:
+      en_US: "Override Heading 5 font"
+      zh_Hans: "覆盖五级标题字体"
+      pt_BR: "Sobrescreve a fonte do H5"
+      ja_JP: "H5のフォントを上書き"
+    llm_description: "Optional H5 font override"
+    options:
+      - label:
+          en_US: 宋体
+          zh_Hans: 宋体
+          pt_BR: 宋体
+          ja_JP: 宋体
+        value: 宋体
+      - label:
+          en_US: 微软雅黑
+          zh_Hans: 微软雅黑
+          pt_BR: 微软雅黑
+          ja_JP: 微软雅黑
+        value: 微软雅黑
+      - label:
+          en_US: 黑体
+          zh_Hans: 黑体
+          pt_BR: 黑体
+          ja_JP: 黑体
+        value: 黑体
+      - label:
+          en_US: 仿宋
+          zh_Hans: 仿宋
+          pt_BR: 仿宋
+          ja_JP: 仿宋
+        value: 仿宋
+      - label:
+          en_US: 楷体
+          zh_Hans: 楷体
+          pt_BR: 楷体
+          ja_JP: 楷体
+        value: 楷体
+      - label:
+          en_US: 思源黑体
+          zh_Hans: 思源黑体
+          pt_BR: 思源黑体
+          ja_JP: 思源黑体
+        value: 思源黑体
+      - label:
+          en_US: 思源宋体
+          zh_Hans: 思源宋体
+          pt_BR: 思源宋体
+          ja_JP: 思源宋体
+        value: 思源宋体
+      - label:
+          en_US: Times New Roman
+          zh_Hans: Times New Roman
+          pt_BR: Times New Roman
+          ja_JP: Times New Roman
+        value: Times New Roman
+      - label:
+          en_US: Arial
+          zh_Hans: Arial
+          pt_BR: Arial
+          ja_JP: Arial
+        value: Arial
+      - label:
+          en_US: Consolas
+          zh_Hans: Consolas
+          pt_BR: Consolas
+          ja_JP: Consolas
+        value: Consolas
+      - label:
+          en_US: Courier New
+          zh_Hans: Courier New
+          pt_BR: Courier New
+          ja_JP: Courier New
+        value: Courier New
+    form: form
+  - name: h5_size_pt
+    type: select
+    required: false
+    label:
+      en_US: H5 size (pt)
+      zh_Hans: 五级标题字号（pt）
+      pt_BR: Tamanho H5 (pt)
+      ja_JP: H5 サイズ（pt）
+    human_description:
+      en_US: "Override H5 size in points"
+      zh_Hans: "覆盖五级标题字号（磅）"
+      pt_BR: "Sobrescreve tamanho do H5 em pontos"
+      ja_JP: "H5のポイントサイズを上書き"
+    llm_description: "Optional H5 size override"
+    options:
+      - label:
+          en_US: 10 pt
+          zh_Hans: 10 pt
+          pt_BR: 10 pt
+          ja_JP: 10 pt
+        value: "10"
+      - label:
+          en_US: 12 pt
+          zh_Hans: 12 pt
+          pt_BR: 12 pt
+          ja_JP: 12 pt
+        value: "12"
+      - label:
+          en_US: 14 pt
+          zh_Hans: 14 pt
+          pt_BR: 14 pt
+          ja_JP: 14 pt
+        value: "14"
+    form: form
+  - name: body_font
+    type: select
+    required: false
+    label:
+      en_US: Body font
+      zh_Hans: 正文字体
+      pt_BR: Fonte do corpo
+      ja_JP: 本文フォント
+    human_description:
+      en_US: "Override body font; leave blank to use template"
+      zh_Hans: "用于覆盖正文的字体；留空则使用模板"
+      pt_BR: "Sobrescreve a fonte do corpo; em branco usa o modelo"
+      ja_JP: "本文のフォントを上書き。空欄はテンプレート使用"
+    llm_description: "Optional body font override"
+    options:
+      - label:
+          en_US: 宋体（正文常用）
+          zh_Hans: 宋体（正文常用）
+          pt_BR: 宋体（正文常用）
+          ja_JP: 宋体（正文常用）
+        value: 宋体
+      - label:
+          en_US: 微软雅黑
+          zh_Hans: 微软雅黑
+          pt_BR: 微软雅黑
+          ja_JP: 微软雅黑
+        value: 微软雅黑
+      - label:
+          en_US: 仿宋
+          zh_Hans: 仿宋
+          pt_BR: 仿宋
+          ja_JP: 仿宋
+        value: 仿宋
+      - label:
+          en_US: 楷体
+          zh_Hans: 楷体
+          pt_BR: 楷体
+          ja_JP: 楷体
+        value: 楷体
+      - label:
+          en_US: 思源宋体
+          zh_Hans: 思源宋体
+          pt_BR: 思源宋体
+          ja_JP: 思源宋体
+        value: 思源宋体
+      - label:
+          en_US: Times New Roman
+          zh_Hans: Times New Roman
+          pt_BR: Times New Roman
+          ja_JP: Times New Roman
+        value: Times New Roman
+      - label:
+          en_US: Arial
+          zh_Hans: Arial
+          pt_BR: Arial
+          ja_JP: Arial
+        value: Arial
+      - label:
+          en_US: Consolas（等宽）
+          zh_Hans: Consolas（等宽）
+          pt_BR: Consolas（等宽）
+          ja_JP: Consolas（等宽）
+        value: Consolas
+      - label:
+          en_US: Courier New（等宽）
+          zh_Hans: Courier New（等宽）
+          pt_BR: Courier New（等宽）
+          ja_JP: Courier New（等宽）
+        value: Courier New
+    form: form
+  - name: body_size_pt
+    type: select
+    required: false
+    label:
+      en_US: Body size (pt)
+      zh_Hans: 正文字号（pt）
+      pt_BR: Tamanho do corpo (pt)
+      ja_JP: 本文サイズ（pt）
+    human_description:
+      en_US: "Override body font size in points; blank uses template"
+      zh_Hans: "用于覆盖正文字号（磅）；留空使用模板"
+      pt_BR: "Sobrescreve o tamanho do corpo em pontos; vazio usa modelo"
+      ja_JP: "本文のポイントサイズ上書き。空欄はテンプレート"
+    llm_description: "Optional body size override in pt"
+    options:
+      - label:
+          en_US: 10 pt
+          zh_Hans: 10 pt
+          pt_BR: 10 pt
+          ja_JP: 10 pt
+        value: "10"
+      - label:
+          en_US: 11 pt
+          zh_Hans: 11 pt
+          pt_BR: 11 pt
+          ja_JP: 11 pt
+        value: "11"
+      - label:
+          en_US: 12 pt（正文常用）
+          zh_Hans: 12 pt（正文常用）
+          pt_BR: 12 pt（正文常用）
+          ja_JP: 12 pt（正文常用）
+        value: "12"
+      - label:
+          en_US: 14 pt
+          zh_Hans: 14 pt
+          pt_BR: 14 pt
+          ja_JP: 14 pt
+        value: "14"
+      - label:
+          en_US: 16 pt
+          zh_Hans: 16 pt
+          pt_BR: 16 pt
+          ja_JP: 16 pt
+        value: "16"
+    form: form
+  # 移除正文行间距设置，默认按模板与逻辑使用 1.0 倍
+extra:
+  python:
+    source: tools/document-converter-word-01.py
